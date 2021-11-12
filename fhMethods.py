@@ -94,7 +94,7 @@ class FilterHilbert:
         for band in range(bands): # Good opportunity to parallelize. Each core will take one band. Don't try to be fancy and split the shuffling amongst cores as there will undoubtedly be issues with threads finishing first, having data available and making the other threads miss.
             freq = band+1
             samplesToTake = (cyclesToCapture * 200 * 1/(freq))
-            result[band, :] = np.exp(1j * (phase2[band,:] - phase1[band,:]))
+            result[band, :] = np.imag(np.exp(1j * (phase2[band,:] - phase1[band,:]))) # testing
             # Add shuffling here to separate random matches from actual "phase coupling"
             result[band, :] = scipy.ndimage.uniform_filter1d(result[band, :], int(samplesToTake))
 
